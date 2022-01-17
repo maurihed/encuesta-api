@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express";
 import { AuthenticatedRequest, UserRequest } from "../types";
-import { User } from "../entity/User";
+import { User } from "../entity/User.entity";
 import { hash } from "bcryptjs";
 
 export const UserController = {

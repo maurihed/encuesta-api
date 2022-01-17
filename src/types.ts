@@ -1,6 +1,6 @@
 import { Request } from "express";
-import { Role } from "./entity/Role";
-import { User } from "./entity/User";
+import { Role } from "./entity/Role.entity";
+import { User } from "./entity/User.entity";
 
 export enum ResourceType {
   DOCUMENT = 'DOCUMENT',

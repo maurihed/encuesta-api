@@ -7,7 +7,7 @@ import {
   BaseEntity,
   ManyToOne,
 } from "typeorm";
-import { Role } from "./Role";
+import { Role } from "./Role.entity";
 
 @Entity('users')
 export class User extends BaseEntity {

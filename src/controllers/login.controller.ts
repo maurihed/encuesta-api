@@ -2,7 +2,7 @@ import { compare } from "bcryptjs";
 import { verify } from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
 import { createAccessToken } from "../auth";
-import { User } from "../entity/User";
+import { User } from "../entity/User.entity";
 import { UserRequest } from "../types";
 import { getSafeUserObject } from "../utils";
 

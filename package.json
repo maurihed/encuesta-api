@@ -28,6 +28,8 @@
    },
    "scripts": {
       "start": "nodemon --exec ts-node src/index.ts",
+      "build": "rm -rf dist && tsc",
+      "prod": "SET NODE_ENV=production&& yarn build && node --experimental-specifier-resolution=node ./dist/index.js",
       "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
    }
 }

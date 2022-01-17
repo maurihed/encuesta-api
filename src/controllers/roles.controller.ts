@@ -1,6 +1,6 @@
 import { Response, NextFunction } from "express";
 import { AuthenticatedRequest, RoleRequest } from "../types";
-import { Role } from "../entity/Role";
+import { Role } from "../entity/Role.entity";
 
 export const RoleController = {
   findByParam: (req: RoleRequest, _: Response, next: NextFunction, id: any): void => {

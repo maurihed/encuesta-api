@@ -1,4 +1,4 @@
-import { User } from "./entity/User";
+import { User } from "./entity/User.entity";
 
 export const getSafeUserObject = (user: User) => ({
   id: user.id,

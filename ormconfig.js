@@ -1,3 +1,6 @@
+const path = require('path');
+const folder = process.env.NODE_ENV == 'production' ? 'dist' : 'src';
+
 module.exports = {
    "type": "postgres",
    "host": process.env.TYPEORM_HOST,
@@ -7,15 +10,9 @@ module.exports = {
    "database": process.env.TYPEORM_DATABASE,
    "synchronize": true,
    "logging": false,
-   "entities": [
-      "src/entity/**/*.ts"
-   ],
-   "migrations": [
-      "src/migration/**/*.ts"
-   ],
-   "subscribers": [
-      "src/subscriber/**/*.ts"
-   ],
+   entities: [path.join(__dirname, `${folder}/**/*.entity.{js,ts}`)],
+   migrations: [path.join(__dirname, `${folder}/**/*.migration.{js,ts}`)],
+   subscribers: [path.join(__dirname, `${folder}/**/*.subscriber.{js,ts}`)],
    "cli": {
       "entitiesDir": "src/entity",
       "migrationsDir": "src/migration",
