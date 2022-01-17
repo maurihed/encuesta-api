@@ -20,7 +20,7 @@ import { errorHandler } from "./routes/errorHandler";
 
   await createConnection();
 
-  app.listen(4000, () => {
-    console.log('Express listening port: 4000');
+  app.listen(process.env.APP_PORT || 4000, () => {
+    console.log(`Express listening port: ${process.env.APP_PORT || 4000}`);
   });
 })();
