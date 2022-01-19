@@ -1,18 +1,9 @@
-
-loginRouter.route('/login')
-  .post(LoginController.login);
-
-loginRouter.route('/logged-user')
-  .post(LoginController.loggedUser as any);
-
-loginRouter.route('/logout')
-
 ### Login roues
 |METHOD|ROUTE|DESCRIPTION|AUTHENTICATION REQUIRED|DATA|
 |--|--|--|--|--|
-| POST | /login | authenticate user | no | { email: "", password: ""} |
-| POST | /logout | get specific user | yes | NA |
-| POST | /logged-user | retrieve the logged user | no | NA |
+| POST | /api/login | authenticate user | no | { email: "", password: ""} |
+| POST | /api/logout | get specific user | yes | NA |
+| POST | /api/logged-user | retrieve the logged user | no | NA |
 
 ### Base route /api/users
 |METHOD|ROUTE|DESCRIPTION|AUTHENTICATION REQUIRED|DATA|
