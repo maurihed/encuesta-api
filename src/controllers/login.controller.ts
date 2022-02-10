@@ -19,7 +19,7 @@ export const LoginController = {
       } else {
         // TODO: Add last connection to the user
         const accessToken = createAccessToken(user);
-        res.cookie('lbId', accessToken, { httpOnly: true });
+        res.cookie('lbId', accessToken, { httpOnly: true, sameSite: 'none', secure: true });
         return res.status(200).json(getSafeUserObject(user));
       }
     });
