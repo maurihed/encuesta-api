@@ -1,5 +1,6 @@
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { LinkedSurvey } from "./LinkedSurvey.entity";
+import { Question } from "./Question.entity";
 import { SurveySurveyed } from "./SurveySurveyed.entity";
 
 @Entity('surveys')
@@ -12,6 +13,9 @@ export class Survey extends BaseEntity {
 
   @OneToMany(() => LinkedSurvey, linkedSurvey => linkedSurvey.survey)
   linkedSurveys: LinkedSurvey[];
+
+  @OneToMany(() => Question, question => question.survey)
+  questions: Question[];
 
   @OneToMany(() => SurveySurveyed, surveySurveyed => surveySurveyed.survey)
   surveySurveyed: SurveySurveyed[];

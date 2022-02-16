@@ -25,6 +25,12 @@ export enum QuestionType {
   OPEN = 'OPEN',
 };
 
+export interface ValidationError {
+  field: string;
+
+  message: string;
+};
+
 export interface AuthenticatedRequest extends Request {
   payload?: { userId: number };
 };

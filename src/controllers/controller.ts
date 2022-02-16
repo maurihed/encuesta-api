@@ -46,7 +46,7 @@ export class Controller {
       });
       
       this.searchAbles.forEach((field) => {
-        query = query.orWhere(`"${field}" LIKE :search`, { search: `%${(search || '')}%` })
+        query = query.orWhere(`t.${field} LIKE :search`, { search: `%${(search || '')}%` })
       });
       const maxResults = (await query.getMany()).length;
       const results =  await query
@@ -68,7 +68,8 @@ export class Controller {
   }
 
   findByParam(req: GenericRequest, _res: Response, next: NextFunction, id: number) {
-    return this.model.findOneOrFail(id)
+    const relations = this.relations.map((r) => r.field);
+    return this.model.findOneOrFail(id, { relations })
       .then((doc: any) => {
         if (!doc) {
           next(new Error('Not Found Error'))
