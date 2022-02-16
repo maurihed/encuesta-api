@@ -3,6 +3,8 @@ import { GenericRequest } from "../types";
 
 export class Controller {
   protected model: any;
+  protected searchAbles: string[] = [];
+  protected relations: {field: string, table: string}[] = [];
 
   createOne(req: GenericRequest, res: Response, next: NextFunction) {
     return this.model.insert(req.body)
@@ -10,17 +12,18 @@ export class Controller {
       .catch((error: Error) => next(error))
   }
 
-  updateOne(req: GenericRequest, res: Response, next: NextFunction) {
-    const docToUpdate = req.docFromId
+  async updateOne(req: GenericRequest, res: Response, next: NextFunction) {
+    const { id } = req.docFromId
     const update = req.body
-    return this.model.update(docToUpdate, update)
+    await this.model.update(id, update);
+    return this.model.findOne(id)
       .then((doc: any) => res.status(201).json(doc))
       .catch((error: Error) => next(error))
   }
 
   deleteOne(req: GenericRequest, res: Response, next: NextFunction) {
     const {id} = req.docFromId;
-    return this.model.delete(id)
+    this.model.delete(id)
       .then(() => res.status(201).json(req.docFromId))
       .catch((error: Error) => next(error))
   }
@@ -35,17 +38,27 @@ export class Controller {
     try {
       const defaults = { page: 1, pageSize: 200 };
       const { page, pageSize } = {...defaults, ...req.query};
-      const maxResults = (await this.model.find()).length;
-      const questions =  await this.model.createQueryBuilder()
+      const { search } = req.query;
+      let query = this.model.createQueryBuilder("t");
+
+      this.relations.forEach(({field, table}) => {
+        query = query.leftJoinAndSelect(`t.${field}`, table);
+      });
+      
+      this.searchAbles.forEach((field) => {
+        query = query.orWhere(`"${field}" LIKE :search`, { search: `%${(search || '')}%` })
+      });
+      const maxResults = (await query.getMany()).length;
+      const results =  await query
         .skip(pageSize * (page-1))
         .take(pageSize)
         .getMany();
 
       res.json({
-        questions,
+        results,
         pageInfo: {
-          page,
-          pageSize,
+          page: Number(page),
+          pageSize: Number(pageSize),
           maxResults,
         }
       });

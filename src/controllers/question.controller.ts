@@ -6,6 +6,8 @@ import { Survey } from "../entity/Survey.entity";
 
 export class QuestionController extends Controller {
   model = Question;
+  
+  searchAbles = ["description"];
 
   async validate(question: any): Promise<any[]> {
     const { description, question_type, surveyId } = question;

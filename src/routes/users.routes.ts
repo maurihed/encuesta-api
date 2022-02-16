@@ -1,15 +1,40 @@
 import { Router } from "express";
+// import { createBypass } from "../utils";
 import { UserController } from "../controllers/users.controller";
 
 export const userRouter = Router();
+const userController = new UserController();
 
-userRouter.param('id', UserController.findByParam as any);
+const bypass = {
+  getAll: (...args: [any, any, any]) => {
+    userController.getAll(...args);
+  },
+  createOne: (...args: [any, any, any]) => {
+    userController.createOne(...args);
+  },
+  getOne: (...args: [any, any, any]) => {
+    userController.getOne(...args);
+  },
+  updateOne: (...args: [any, any, any]) => {
+    userController.updateOne(...args);
+  },
+  deleteOne: (...args: [any, any, any]) => {
+    userController.deleteOne(...args);
+  },
+  findByParam: (...args: [any, any, any, any]) => {
+    userController.findByParam(...args);
+  },
+};
+
+// const bypass = createBypass(UserController);
+
+userRouter.param('id', bypass.findByParam as any);
 
 userRouter.route('/')
-  .get(UserController.getAll)
-  .post(UserController.createOne);
+  .get(bypass.getAll)
+  .post(bypass.createOne);
 
   userRouter.route('/:id')
-  .get(UserController.getOne as any)
-  .put(UserController.updateOne as any)
-  .delete(UserController.deleteOne as any);
+  .get(bypass.getOne as any)
+  .put(bypass.updateOne as any)
+  .delete(bypass.deleteOne as any);
