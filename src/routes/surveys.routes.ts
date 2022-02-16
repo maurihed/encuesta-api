@@ -5,8 +5,6 @@ export const surveyRouter = Router();
 
 const surveyController = new SurveyController();
 
-surveyRouter.param('id', surveyController.findByParam);
-
 const bypass = {
   getAll: (...args: [any, any, any]) => {
     surveyController.getAll(...args);
@@ -23,13 +21,17 @@ const bypass = {
   deleteOne: (...args: [any, any, any]) => {
     surveyController.deleteOne(...args);
   },
+  findByParam: (...args: [any, any, any, any]) => {
+    surveyController.findByParam(...args);
+  },
 };
 
 surveyRouter.route('/')
   .get(bypass.getAll)
   .post(bypass.createOne);
 
-  surveyRouter.route('/:id')
+surveyRouter.param('id', bypass.findByParam);
+surveyRouter.route('/:id')
   .get(bypass.getOne)
   .put(bypass.updateOne)
   .delete(bypass.deleteOne);

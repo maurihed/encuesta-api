@@ -19,9 +19,9 @@ export class Controller {
   }
 
   deleteOne(req: GenericRequest, res: Response, next: NextFunction) {
-    const docToDelete = req.docFromId;
-    return this.model.delete(docToDelete)
-      .then((doc: any) => res.status(201).json(doc))
+    const {id} = req.docFromId;
+    return this.model.delete(id)
+      .then(() => res.status(201).json(req.docFromId))
       .catch((error: Error) => next(error))
   }
 
@@ -31,10 +31,27 @@ export class Controller {
       .catch(error => next(error))
   }
 
-  getAll(_req: GenericRequest, res: Response, next: NextFunction) {
-    return this.model.find()
-      .then((docs: any[]) => res.json(docs))
-      .catch((error: Error) => next(error))
+  async getAll(req: GenericRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const defaults = { page: 1, pageSize: 200 };
+      const { page, pageSize } = {...defaults, ...req.query};
+      const maxResults = (await this.model.find()).length;
+      const questions =  await this.model.createQueryBuilder()
+        .skip(pageSize * (page-1))
+        .take(pageSize)
+        .getMany();
+
+      res.json({
+        questions,
+        pageInfo: {
+          page,
+          pageSize,
+          maxResults,
+        }
+      });
+    } catch(e) {
+      next(e);
+    }
   }
 
   findByParam(req: GenericRequest, _res: Response, next: NextFunction, id: number) {
