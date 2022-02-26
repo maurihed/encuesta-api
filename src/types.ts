@@ -25,10 +25,15 @@ export enum QuestionType {
   OPEN = 'OPEN',
 };
 
-export interface ValidationError {
+export class ValidationError {
   field: string;
 
   message: string;
+
+  constructor(field: string, message: string) {
+    this.field = field;
+    this.message = message;
+  }
 };
 
 export interface AuthenticatedRequest extends Request {

@@ -15,7 +15,7 @@ export class Surveyed extends BaseEntity {
   @Column()
   lastname: string;
 
-  @Column()
+  @Column({ nullable: true})
   ip: string;
 
   @Column()
@@ -24,33 +24,34 @@ export class Surveyed extends BaseEntity {
   @Column()
   state: string;
 
-  @Column()
+  @Column({ default: 'MX' })
   country: string;
 
-  @Column()
+  @Column({ nullable: true})
   ip_hostname: string;
 
-  @Column()
+  @Column({ nullable: true})
   ip_city: string;
 
-  @Column()
+  @Column({ nullable: true})
   ip_region: string;
 
-  @Column()
+  @Column({ nullable: true})
   ip_country: string;
 
-  @Column()
+  @Column({ nullable: true})
   ip_zip: string;
 
-  @Column()
+  @Column({ nullable: true})
   ip_org: string;
 
-  @Column()
+  @Column({ nullable: true})
   zip: string;
 
+  @Column({ nullable: true})
   birthday: Date;
 
-  @Column()
+  @Column({ nullable: true})
   agent: string;
 
   @Column()
@@ -59,10 +60,10 @@ export class Surveyed extends BaseEntity {
   @Column()
   lng: string;
 
-  @Column()
+  @Column({ nullable: true})
   device: string;
 
-  @Column({ type: "varchar", length: 255 })
+  @Column({ nullable: true, type: "varchar", length: 255 })
   device_type: DeviceType;
 
   @OneToMany(() => SurveySurveyed, surveySurveyed => surveySurveyed.surveyed)
